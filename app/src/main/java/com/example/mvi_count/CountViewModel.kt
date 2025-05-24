@@ -13,7 +13,12 @@ class CountViewModel : ViewModel() {
             is CountIntent.Increment -> {
                 _state.value = _state.value.copy(count = _state.value.count + 1)
             }
+            is CountIntent.Decrement -> {
+                _state.value = _state.value.copy(count = _state.value.count - 1)
+            }
+            is CountIntent.Reset -> {
+                _state.value = _state.value.copy(count = 0)
+            }
         }
     }
 }
-

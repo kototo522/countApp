@@ -45,6 +45,12 @@ fun Count(modifier: Modifier = Modifier, viewModel: CountViewModel) {
         Button(onClick = { viewModel.onIntent(CountIntent.Increment) }) {
             Text(text = "Count Up")
         }
+        Button(onClick = { viewModel.onIntent(CountIntent.Decrement )}) {
+            Text(text = "Count down")
+        }
+        Button(onClick = { viewModel.onIntent(CountIntent.Reset) }) {
+            Text(text = "reset")
+        }
     }
 }
 
@@ -56,4 +62,5 @@ fun GreetingPreview() {
         Count(viewModel = previewViewModel)
     }
 }
+
 
