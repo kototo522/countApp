@@ -18,7 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.mvi_count.ui.theme.Mvi_countTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,23 +40,26 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Count(modifier: Modifier = Modifier, viewModel: CountViewModel) {
-    val state = viewModel.state.collectAsState()
+fun Count(
+    modifier: Modifier = Modifier,
+    viewModel: CountViewModel? = null,
+) {
+    val state = viewModel?.state?.collectAsState()?.value ?: CountState()
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Count: ${state.value.count}",
+            text = "Count: ${state.count}",
         )
-        Button(onClick = { viewModel.onIntent(CountIntent.Increment) }) {
+        Button(onClick = { viewModel?.onIntent(CountIntent.Increment) }) {
             Text(text = "Count Up")
         }
-        Button(onClick = { viewModel.onIntent(CountIntent.Decrement )}) {
+        Button(onClick = { viewModel?.onIntent(CountIntent.Decrement) }) {
             Text(text = "Count down")
         }
-        Button(onClick = { viewModel.onIntent(CountIntent.Reset) }) {
+        Button(onClick = { viewModel?.onIntent(CountIntent.Reset) }) {
             Text(text = "reset")
         }
     }
@@ -62,10 +67,12 @@ fun Count(modifier: Modifier = Modifier, viewModel: CountViewModel) {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    val previewViewModel = CountViewModel()
+fun CountPreview() {
     Mvi_countTheme {
-        Count(viewModel = previewViewModel)
+        Count(
+            modifier = Modifier,
+            viewModel = null,
+        )
     }
 }
 
